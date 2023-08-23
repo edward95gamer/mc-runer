@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)https://offline-dino-game.firebaseapp.com/ -->
+<html dir="ltr" lang="en"><script>
+(function() {
+    const FLASH_MIMETYPE = "application/x-shockwave-flash";
+    const FUTURESPLASH_MIMETYPE = "application/futuresplash";
+    const FLASH7_AND_8_MIMETYPE = "application/x-shockwave-flash2-preview";
+    const FLASH_MOVIE_MIMETYPE = "application/vnd.adobe.flash.movie";
+    const FLASH_ACTIVEX_CLASSID = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000";
+
+    class RuffleMimeTypeArray {
+        constructor(mimeTypes) {
+            this.__mimeTypes = [];
+            this.__namedMimeTypes = {};
+            if (mimeTypes) {
+                for (let i = 0; i < mimeTypes.length; i++) {
+                    this.install(mimeTypes[i]);
+                }
+            }
+        }
+        install(mimeType) {
+            const index = this.__mimeTypes.length;
+            this.__mimeTypes.push(mimeType);
+            this.__namedMimeTypes[mimeType.type] = mimeType;
+            this[mimeType.type] = mimeType;
+            this[index] = mimeType;
+        }
+        item(index) {
+            // This behavior is done to emulate a 32-bit uint,
+            // which browsers use.
+            return this.__mimeTypes[index >>> 0];
+        }
+        namedItem(name) {
+            return this.__namedMimeTypes[name];
+        }
+        get length() {
+            return this.__mimeTypes.length;
+        }
+        [Symbol.iterator]() {
+            return this.__mimeTypes[Symbol.iterator]();
+        }
+    }
+    class RufflePlugin extends RuffleMimeTypeArray {
+        constructor(name, description, filename) {
+            super();
+            this.name = name;
+            this.description = description;
+            this.filename = filename;
+        }
+    }
+    class RufflePluginArray {
+        constructor(plugins) {
+            this.__plugins = [];
+            this.__namedPlugins = {};
+            for (let i = 0; i < plugins.length; i++) {
+                this.install(plugins[i]);
+            }
+        }
+        install(plugin) {
+            const index = this.__plugins.length;
+            this.__plugins.push(plugin);
+            this.__namedPlugins[plugin.name] = plugin;
+            this[plugin.name] = plugin;
+            this[index] = plugin;
+        }
+        item(index) {
+            // This behavior is done to emulate a 32-bit uint,
+            // which browsers use. Cloudflare's anti-bot
+            // checks rely on this.
+            return this.__plugins[index >>> 0];
+        }
+        namedItem(name) {
+            return this.__namedPlugins[name];
+        }
+        refresh() {
+            // Nothing to do, we just need to define the method.
+        }
+        [Symbol.iterator]() {
+            return this.__plugins[Symbol.iterator]();
+        }
+        get length() {
+            return this.__plugins.length;
+        }
+    }
+    /**
+     * A fake plugin designed to trigger Flash detection scripts.
+     */
+    const FLASH_PLUGIN = new RufflePlugin("Shockwave Flash", "Shockwave Flash 32.0 r0", "ruffle.js");
+    /**
+     * A fake plugin designed to allow early detection of if the Ruffle extension is in use.
+     */
+    const RUFFLE_EXTENSION = new RufflePlugin("Ruffle Extension", "Ruffle Extension", "ruffle.js");
+    FLASH_PLUGIN.install({
+        type: FUTURESPLASH_MIMETYPE,
+        description: "Shockwave Flash",
+        suffixes: "spl",
+        enabledPlugin: FLASH_PLUGIN,
+    });
+    FLASH_PLUGIN.install({
+        type: FLASH_MIMETYPE,
+        description: "Shockwave Flash",
+        suffixes: "swf",
+        enabledPlugin: FLASH_PLUGIN,
+    });
+    FLASH_PLUGIN.install({
+        type: FLASH7_AND_8_MIMETYPE,
+        description: "Shockwave Flash",
+        suffixes: "swf",
+        enabledPlugin: FLASH_PLUGIN,
+    });
+    FLASH_PLUGIN.install({
+        type: FLASH_MOVIE_MIMETYPE,
+        description: "Shockwave Flash",
+        suffixes: "swf",
+        enabledPlugin: FLASH_PLUGIN,
+    });
+    RUFFLE_EXTENSION.install({
+        type: "",
+        description: "Ruffle Detection",
+        suffixes: "",
+        enabledPlugin: RUFFLE_EXTENSION,
+    });
+    function installPlugin(plugin) {
+        if (!("install" in navigator.plugins) || !navigator.plugins["install"]) {
+            Object.defineProperty(navigator, "plugins", {
+                value: new RufflePluginArray(navigator.plugins),
+                writable: false,
+            });
+        }
+        const plugins = navigator.plugins;
+        plugins.install(plugin);
+        if (plugin.length > 0 &&
+            (!("install" in navigator.mimeTypes) || !navigator.mimeTypes["install"])) {
+            Object.defineProperty(navigator, "mimeTypes", {
+                value: new RuffleMimeTypeArray(navigator.mimeTypes),
+                writable: false,
+            });
+        }
+        const mimeTypes = navigator.mimeTypes;
+        for (let i = 0; i < plugin.length; i += 1) {
+            mimeTypes.install(plugin[i]);
+        }
+    }
+
+    installPlugin(FLASH_PLUGIN);
+    installPlugin(RUFFLE_EXTENSION);
+})();
+</script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="theme-color" content="#fff"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Dinosaur Game</title><link rel="apple-touch-icon" sizes="180x180" href="https://offline-dino-game.firebaseapp.com/apple-touch-icon.33b724c6.png"><link rel="icon" type="image/png" sizes="32x32" href="https://offline-dino-game.firebaseapp.com/favicon-32x32.43b30f10.png"><link rel="icon" type="image/png" sizes="16x16" href="https://offline-dino-game.firebaseapp.com/favicon-16x16.442c5440.png"><link rel="manifest" href="https://offline-dino-game.firebaseapp.com/manifest.webmanifest"><script async="" src="./Dinosaur Game_files/pwacompat.cb517f16.js.descarga" crossorigin="anonymous"></script><link rel="stylesheet" href="./Dinosaur Game_files/src.9ad09f98.css"><style></style><script defer="" src="./Dinosaur Game_files/game.7bbe06d5.js.descarga" crossorigin="anonymous"></script><meta name="Title" content="Dinosaur Game"> <meta name="Keywords" content="chrome, dino-game, dino, offline, score, game, google-chrome"> <meta name="Description" content="This is Dinosaur Game, similar to the one found in Chrome&#39;s offline page. But this isn&#39;t any old Dinosaur Game, it&#39;s a PWA!"> <meta name="Subject" content="Game"> <meta name="Robots" content="INDEX,FOLLOW"> <meta property="og:type" content="website"> <meta property="og:image:width" content="164"> <meta property="og:image:height" content="164"> <meta property="og:title" content="Offline Dino Game"> <meta property="og:description" content="The chrome offline game, on any browser, online or offline, at any time. how far can you run?"> <meta property="og:url" content="https://offline-dino-game.firebaseapp.com/"> <meta property="og:image" content="https://offline-dino-game.firebaseapp.com/https://offline-dino-game.firebaseapp.com/img/og-image.jpg"> <link rel="canonical" href="https://offline-dino-game.firebaseapp.com/"> <meta name="twitter:card" content="app"> <script type="application/ld+json">{"@context":"http://schema.org","@type":"Game","url":"https://offline-dino-game.firebaseapp.com/","name":"Offline Dinosaur Game","numberOfPlayers":1,"about":"offline dinosaur game"}</script>   <style>body.shimeji-pinned iframe {
+      pointer-events: none;
+    }
+    body.shimeji-select-ie {
+      cursor: cell !important;
+    }
+    #shimeji-contextMenu::-webkit-scrollbar {
+      width: 6px;
+    }
+    #shimeji-contextMenu::-webkit-scrollbar-thumb {
+      background-color: rgba(30,30,30,0.6);
+      border-radius: 3px;
+    }
+    #shimeji-contextMenu::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }</style><meta name="shimejiBrowserExtensionId" content="gohjpllcolmccldfdggmamodembldgpc" data-version="2.0.3"><meta name="mobile-web-app-capable" content="yes"><meta name="x5-orientation" content="landscape"><meta name="screen-orientation" content="landscape"><meta name="x5-page-mode" content="app"><meta name="browsermode" content="application"></head><body scroll="no" style="overflow:hidden" class="container" data-new-gr-c-s-check-loaded="14.1119.0" data-gr-ext-installed=""> <div id="installer" class="available"> <button class="button">Install</button> </div> <div id="game" role="main"><div class="runner-container"><canvas class="runner-canvas" width="600" height="150" style="width: 600px; height: 150px;"></canvas></div></div> <div id="offline-resources"> <img id="offline-resources-1x" src="./Dinosaur Game_files/100-offline-sprite.6884f753.png"> <img id="offline-resources-2x" src="./Dinosaur Game_files/200-offline-sprite.76cb52b7.png"> <img id="offline-resources-bday-1x" src="./Dinosaur Game_files/100-offline-sprite-bday.0ff24842.png"> <img id="offline-resources-bday-2x" src="./Dinosaur Game_files/200-offline-sprite-bday.b5693bb4.png"> <template id="audio-resources"></template> </div> <p class="bottom left">Joel Ellis</p> <div id="shimeji-workArea" style="position: fixed; background: transparent; z-index: 2147483643; width: 100vw; height: 100vh; left: 0px; top: 0px; transform: translate(0px, 0px); pointer-events: none;"></div></body><div id="vimeo-record-extension"></div><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+  div.grammarly-desktop-integration {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select:none;
+    user-select:none;
+  }
+
+  div.grammarly-desktop-integration:before {
+    content: attr(data-content);
+  }
+</style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;limited&quot;,&quot;isActive&quot;:false,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
